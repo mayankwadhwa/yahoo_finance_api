@@ -2,6 +2,7 @@ name = "python_finance_api"
 
 
 import pandas as pd
+import numpy as np
 import time  as _time
 import requests
 
@@ -70,7 +71,7 @@ class YahooFinance:
             if isinstance(x, float):
                 temp_list.append(round(x, 2))
             else:
-                temp_list.append(pd.np.nan)
+                temp_list.append(np.nan)
         return temp_list
 
     def to_csv(self, file_name):
