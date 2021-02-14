@@ -1,3 +1,5 @@
+# Update - I am not maintaining this project so if you have any problem please fork this project and try solving it yourselves.
+
 # Yahoo Finance Python API
 
 Due to rampant deprecation of all the stocks api like pandas_datareader etc, i have to created my own based on the yahoo api v8
