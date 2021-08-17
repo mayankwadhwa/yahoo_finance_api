@@ -1,9 +1,10 @@
 name = "python_finance_api"
 
-
+import sys
 import pandas as pd
 import time  as _time
 import requests
+import numpy as np
 
 
 class YahooFinance:
@@ -21,6 +22,8 @@ class YahooFinance:
 
         :return:
         """
+        self._result = None
+        
         if result_range is None:
             start = int(_time.mktime(_time.strptime(start, '%d-%m-%Y')))
             end = int(_time.mktime(_time.strptime(end, '%d-%m-%Y')))
@@ -30,9 +33,16 @@ class YahooFinance:
         else:
             params = {'range': result_range, 'interval': interval}
 
+        header = {'user-agent':"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"}
+
         # sending get request and saving the response as response object
         url = "https://query1.finance.yahoo.com/v8/finance/chart/{}".format(ticker)
-        r = requests.get(url=url, params=params)
+        r = requests.get(url=url, headers=header, params=params)
+
+        if r.status_code >= 400:
+            print(f'[HTTPError] -> HTTP status code {r.status_code}')
+            sys.exit(1)
+                        
         data = r.json()
         # Getting data from json
         error = data['chart']['error']
@@ -70,7 +80,7 @@ class YahooFinance:
             if isinstance(x, float):
                 temp_list.append(round(x, 2))
             else:
-                temp_list.append(pd.np.nan)
+                temp_list.append(np.nan)
         return temp_list
 
     def to_csv(self, file_name):
